@@ -1,9 +1,9 @@
 ---
 import Spinner from '../components/Spinner.tsx';
+import { NightSkyConstellations } from '../components/NightSkyConstellations';
 ---
 
-<main class="min-h-screen bg-[#020618] text-white">
-  <div class="container m-auto">
-    <Spinner client:load />
-  </div>
+<main class="relative min-h-screen text-white">
+  <NightSkyConstellations client:load />
+  <!-- <div class="absolute w-full h-full" style="background: #000000; background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 20%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.7) 80%, rgba(0, 0, 0, 0) 100%);" /> -->
 </main>
