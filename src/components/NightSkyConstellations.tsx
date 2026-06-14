@@ -28,7 +28,8 @@ interface ConstellationData {
 // Generate stars and constellation lines
 function generateConstellations(width: number, height: number): ConstellationData {
   const stars: Star[] = [];
-  const numStars = 400; // Balanced for performance and visual richness
+  const baseStarDensity = 600 / (2400 * 2400);
+  const numStars = Math.max(100, Math.round(width * height * baseStarDensity));
 
   // Generate star positions and brightness
   for (let i = 0; i < numStars; i++) {
@@ -45,7 +46,7 @@ function generateConstellations(width: number, height: number): ConstellationDat
 
   // Create lines between nearby stars to form constellations
   const lines: Line[] = [];
-  const connectionDistance = 140; // Pixels - adjust for connection density
+  const connectionDistance = Math.max(70, Math.min(width, height) * 0.06);
   const maxConnectionsPerStar = 3; // Limit connections per star for performance
   const connectedStarIndices = new Set<number>(); // Track which stars have connections
 
@@ -87,26 +88,55 @@ interface NightSkyConstellationsProps {
 
 export function NightSkyConstellations({
   className = '',
-  width = 2400,
-  height = 4800,
+  width,
+  height,
 }: NightSkyConstellationsProps) {
+  const [viewport, setViewport] = useState({ width: 0, height: 0 });
   const [data, setData] = useState<ConstellationData | null>(null);
 
   useEffect(() => {
-    setData(generateConstellations(width, height));
-  }, [width, height]);
+    const updateViewport = () => {
+      setViewport({
+        width: window.innerWidth || 1440,
+        height: window.innerHeight || 900,
+      });
+    };
+
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+
+    return () => window.removeEventListener('resize', updateViewport);
+  }, []);
+
+  const viewWidth = width ?? (viewport.width || 1440);
+  const viewHeight = height ?? (viewport.height || 900);
+
+  useEffect(() => {
+    setData(generateConstellations(viewWidth, viewHeight));
+  }, [viewWidth, viewHeight]);
 
   if (!data) return null;
 
   return (
-    <div className={`fixed inset-0 overflow-auto bg-black ${className}`} style={{ zIndex: -1 }}>
+    <div className={`fixed inset-0 overflow-hidden bg-black ${className}`} style={{ zIndex: -1 }}>
+      <div
+        aria-hidden="true"
+        className='h-full w-full'
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'radial-gradient(ellipse 300% 200% at 50% 150%, rgba(255, 84, 158, 1) 0%, rgba(255, 84, 158, 0.2) 24%, rgba(255, 84, 158, 0.1) 40%, rgba(30, 13, 33, 0) 56%)',
+          pointerEvents: 'none',
+          mixBlendMode: 'screen',
+        }}
+      />
       <svg
-        viewBox={`0 0 ${width} ${height}`}
+        viewBox={`0 0 ${viewWidth} ${viewHeight}`}
         className="block"
         style={{
           width: '100vw',
-          height: `${(height / width) * 100}vw`,
-          minHeight: '100vh',
+          height: '100vh',
         }}
         preserveAspectRatio="none"
       >
@@ -130,8 +160,8 @@ export function NightSkyConstellations({
               y1={line.y1}
               x2={line.x2}
               y2={line.y2}
-              stroke="rgba(100, 150, 255, 0.4)"
-              strokeWidth="2.8"
+              stroke="rgba(255, 187, 84, 0.4)"
+              strokeWidth="1.4"
               opacity={line.opacity}
               strokeLinecap="round"
             />
@@ -141,14 +171,14 @@ export function NightSkyConstellations({
         {/* Stars - render after lines */}
         <g filter="url(#starGlow)">
           {data.stars.map((star, idx) => {
-            const radius = 0.4 + star.brightness * 1.4;
+            const radius = 0.4 + star.brightness * 0.8;
             return (
               <circle
                 key={`star-${idx}`}
                 cx={star.x}
                 cy={star.y}
                 r={radius}
-                fill={`rgba(255, 255, 255, ${star.brightness})`}
+                fill={`rgba(255, 84, 158, ${star.brightness})`}
               />
             );
           })}
