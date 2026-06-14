@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
-import NightSkyConstellations from "../components/NightSkyConstellations";
+import NightSkyConstellations from "../components/NightSkyConstellations.tsx";
 import NameTitle from "../components/NameTitle.tsx";
 
-export default function HomeReact() {
+export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden text-white">
       <NightSkyConstellations></NightSkyConstellations>
@@ -140,18 +140,6 @@ export default function HomeReact() {
             </span>
             <span className="rounded-full border border-white/10 bg-white/6 px-3 py-2">
               Placeholder
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                animate={{
-                  x: [0, 1000],
-                  transition: { duration: 5 },
-                }}
-              >
-                HARP HARP HAPR!
-              </motion.div>
             </span>
           </div>
         </section>

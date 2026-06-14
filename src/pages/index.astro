@@ -1,9 +1,9 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Home from './Home.astro';
-import '../styles/global.css';
+import Layout from "../layouts/Layout.astro";
+import App from "./App";
+import "../styles/global.css";
 ---
 
 <Layout>
-  <Home />
+  <App client:load />
 </Layout>
