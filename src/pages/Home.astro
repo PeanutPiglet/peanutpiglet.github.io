@@ -1,5 +1,5 @@
 ---
-import Spinner from '../components/Spinner.tsx';
+import { motion } from 'motion/react';
 import { NightSkyConstellations } from '../components/NightSkyConstellations';
 import NameTitle from '../components/NameTitle.tsx';
 ---
@@ -11,11 +11,15 @@ import NameTitle from '../components/NameTitle.tsx';
     id="main-content-container"
     class="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8"
   >
-    <section class="flex justify-center bg-amber-50">
-      Hello, this is
-    </section>
-    <section class="flex items-center justify-center rounded-[28px] border border-white/10 bg-white/5 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.9)] backdrop-blur-md sm:p-8">
-      <NameTitle client:load />
+    <section>
+      <section class="flex justify-center pt-10 font-[monument] text-4xl ">
+        <motion.div>
+          Hello, this is
+        </motion.div>
+      </section>
+      <section class="flex items-center justify-center">
+        <NameTitle client:load />
+      </section>
     </section>
 
     <section class="grid gap-6 md:grid-cols-2">

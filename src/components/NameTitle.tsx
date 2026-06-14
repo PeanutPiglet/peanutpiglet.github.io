@@ -1,18 +1,15 @@
 import { motion } from 'motion/react';
 
-const name = 'JACK TANG';
+const name = "Jack Tang"
 
-const delayDict: Map<number, number> = new Map([
-    [0, 0], [1, 0.04], [2, 0.04], [3, 0.08], [4, 0.12], [5, 0.16], [6, 0.04], [7, 0.12], [8, 0.16]
-]);
-
+const staggerDict = new Map<number, number>([
+  [0, 0], [1, 0.04], [2, 0.12], [3, 0.04], [4, 0.8], [5, 0.16], [6, 0.08], [7, 0.04], [8, 0.12]
+])
 
 export default function NameTitle() {
   return (
-    <motion.div
+    <div
       className="w-full text-center text-[clamp(3rem,18vw,12rem)] leading-none tracking-[0.04em] text-white [font-family:Monument,ui-sans-serif,system-ui,sans-serif]"
-      initial="hidden"
-      animate="visible"
       aria-label={name}
     >
       {name.split('').map((char, index) => (
@@ -23,13 +20,13 @@ export default function NameTitle() {
           animate={{ opacity: 1, y: 0 }}
           transition={{
             duration: 2.0,
-            delay: delayDict.get(index) ,
+            delay: staggerDict.get(index),
             ease: [0.22, 1, 0.36, 1],
           }}
         >
           {char === ' ' ? '\u00A0' : char}
         </motion.span>
       ))}
-    </motion.div>
+    </div>
   );
 }
