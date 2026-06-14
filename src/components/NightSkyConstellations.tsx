@@ -86,7 +86,7 @@ interface NightSkyConstellationsProps {
   height?: number;
 }
 
-export function NightSkyConstellations({
+export default function NightSkyConstellations({
   className = '',
   width,
   height,
