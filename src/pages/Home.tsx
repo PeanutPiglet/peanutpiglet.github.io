@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import NightSkyConstellations from "../components/NightSkyConstellations.tsx";
 import NameTitle from "../components/NameTitle.tsx";
 import RisingText from "../components/RisingText.tsx";
+import ScrambleText from "../components/ScrambleText.tsx";
 
 export default function Home() {
   return (
@@ -55,6 +56,7 @@ export default function Home() {
               rules of the universe, but none yet capture the vibrant complex of
               the human condition.
             </motion.p>
+            <ScrambleText>HARP!!!</ScrambleText>
           </p>
         </section>
 
