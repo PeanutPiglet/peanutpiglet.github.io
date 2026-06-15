@@ -14,3 +14,8 @@ body {
   font-family: "monument";
   src: url("../assets/fonts/MonumentValley.otf");
 }
+
+@font-face {
+  font-family: "nugo";
+  src: url("../assets/fonts/NugoSans.ttf");
+}

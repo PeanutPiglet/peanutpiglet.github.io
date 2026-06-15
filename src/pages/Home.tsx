@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import NightSkyConstellations from "../components/NightSkyConstellations.tsx";
 import NameTitle from "../components/NameTitle.tsx";
+import RisingText from "../components/RisingText.tsx";
 
 export default function Home() {
   return (
@@ -27,30 +28,34 @@ export default function Home() {
           </section>
         </section>
 
-        <section className="grid gap-6 md:grid-cols-2">
-          <article className="rounded-[24px] border border-white/10 bg-slate-950/35 p-5 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.9)] backdrop-blur-md">
-            <p className="text-[10px] uppercase tracking-[0.35em] text-slate-400">
-              Panel one
-            </p>
-            <h2 className="mt-3 text-xl font-semibold text-white">Hello</h2>
-            <p className="mt-3 text-sm text-slate-200">
-              This is placeholder copy for the left area of the page. It is
-              intentionally simple and easy to replace once the real content is
-              ready.
-            </p>
-          </article>
-
-          <article className="rounded-[24px] border border-white/10 bg-slate-950/35 p-5 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.9)] backdrop-blur-md">
-            <p className="text-[10px] uppercase tracking-[0.35em] text-slate-400">
-              Panel two
-            </p>
-            <h2 className="mt-3 text-xl font-semibold text-white">World</h2>
-            <p className="mt-3 text-sm text-slate-200">
-              This is placeholder copy for the right area of the page. It is
-              intentionally simple and easy to replace once the real content is
-              ready.
-            </p>
-          </article>
+        <section className="mt-12 font-[nugo]">
+          <h1 className="text-center italic text-lg">
+            <RisingText
+              text="an undergraduate seeking the secrets of the universe while trying not to scare people away"
+              stagger={0.013}
+              initialY={1000}
+              easing={[0.23, 0.96, 0.29, 0.98]}
+              delay={1}
+            ></RisingText>
+          </h1>
+          <p className="mt-6 text-2xl text-justify">
+            <motion.p
+              initial={{ opacity: 0, y: 200 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 2,
+                delay: 1,
+                ease: "easeIn",
+              }}
+            >
+              My interests orbit around fundamental theories: computation,
+              physics, philosophy, and — spookiest of all — logic. However, this
+              doesn't stop me from getting myself immersed in game development
+              and music production. After all, we have equations describing the
+              rules of the universe, but none yet capture the vibrant complex of
+              the human condition.
+            </motion.p>
+          </p>
         </section>
 
         <section className="grid gap-6 lg:grid-cols-3">
