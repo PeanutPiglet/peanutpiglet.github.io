@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import NightSkyConstellations from "../components/NightSkyConstellations.tsx";
-import NameTitle from "../components/NameTitle.tsx";
+import NameTitle from "../components/Home/NameTitle.tsx";
 import RisingText from "../components/RisingText.tsx";
 import ScrambleText from "../components/ScrambleText.tsx";
 
@@ -25,7 +25,7 @@ export default function Home() {
             </motion.div>
           </section>
           <section className="flex items-center justify-center">
-            <NameTitle />
+            <NameTitle></NameTitle>
           </section>
         </section>
 

@@ -12,6 +12,7 @@ type Props = {
   cyclesPerLetter?: number;
   shuffleTime?: number;
   chars?: string;
+  progressive?: boolean;
 };
 
 const ScrambleText: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const ScrambleText: React.FC<Props> = ({
   cyclesPerLetter = CYCLES_PER_LETTER,
   shuffleTime = SHUFFLE_TIME,
   chars = CHARS,
+  progressive = true,
 }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const TARGET_TEXT = children;
@@ -31,7 +33,7 @@ const ScrambleText: React.FC<Props> = ({
     intervalRef.current = setInterval(() => {
       const scrambled = TARGET_TEXT.split("")
         .map((char, index) => {
-          if (pos / cyclesPerLetter > index) {
+          if (progressive && pos / cyclesPerLetter > index) {
             return char;
           }
 

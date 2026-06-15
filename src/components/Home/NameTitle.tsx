@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import ScrambleText from "../ScrambleText";
 
 const name = "Jack Tang";
 
@@ -12,6 +13,18 @@ const staggerDict = new Map<number, number>([
   [6, 0.08],
   [7, 0.04],
   [8, 0.12],
+]);
+
+const scrambleDict = new Map<number, string>([
+  [0, "ZZZZZIJE"],
+  [1, "IIIIIZJE"],
+  [2, "JJJJJZIE"],
+  [3, "IIIIIZJE"],
+  [4, "\u00A0"],
+  [5, "EEEEEZIJ"],
+  [6, "AAAAAA__"],
+  [7, "NNNNNN00"],
+  [8, "GGGGGG77"],
 ]);
 
 export default function NameTitle() {
@@ -32,7 +45,14 @@ export default function NameTitle() {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          {char === " " ? "\u00A0" : char}
+          <ScrambleText
+            cyclesPerLetter={100}
+            shuffleTime={60}
+            progressive={false}
+            chars={scrambleDict.get(index)}
+          >
+            {char === " " ? "\u00A0" : char}
+          </ScrambleText>
         </motion.span>
       ))}
     </div>
