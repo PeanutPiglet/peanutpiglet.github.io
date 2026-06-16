@@ -39,25 +39,28 @@ export default function Home() {
               delay={1}
             ></RisingText>
           </h1>
-          <p className="mt-6 text-2xl text-justify">
-            <motion.p
-              initial={{ opacity: 0, y: 200 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 2,
-                delay: 1,
-                ease: "easeIn",
-              }}
-            >
-              My interests orbit around fundamental theories: computation,
-              physics, philosophy, and — spookiest of all — logic. However, this
-              doesn't stop me from getting myself immersed in game development
-              and music production. After all, we have equations describing the
-              rules of the universe, but none yet capture the vibrant complex of
-              the human condition.
-            </motion.p>
-            <ScrambleText>HARP!!!</ScrambleText>
-          </p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0, delay: 2 }}
+          >
+            <div className="mt-6 text-2xl text-justify">
+              <ScrambleText
+                initialDelay={2000}
+                cyclesPerLetter={0.5}
+                shuffleTime={30}
+                canHoverStart={false}
+                canHoverStop={false}
+              >
+                My interests orbit around fundamental theories: computation,
+                physics, philosophy, and — spookiest of all — logic. However,
+                this doesn't stop me from getting myself immersed in game
+                development and music production. After all, we have equations
+                describing the rules of the universe, but none yet capture the
+                vibrant complex of the human condition.
+              </ScrambleText>
+            </div>
+          </motion.div>
         </section>
 
         <section className="grid gap-6 lg:grid-cols-3">

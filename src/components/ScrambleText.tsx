@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const CYCLES_PER_LETTER = 2;
@@ -13,6 +13,9 @@ type Props = {
   shuffleTime?: number;
   chars?: string;
   progressive?: boolean;
+  initialDelay?: number;
+  canHoverStart?: boolean;
+  canHoverStop?: boolean;
 };
 
 const ScrambleText: React.FC<Props> = ({
@@ -21,6 +24,9 @@ const ScrambleText: React.FC<Props> = ({
   shuffleTime = SHUFFLE_TIME,
   chars = CHARS,
   progressive = true,
+  initialDelay = -1.0,
+  canHoverStart = true,
+  canHoverStop = true,
 }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const TARGET_TEXT = children;
@@ -58,10 +64,23 @@ const ScrambleText: React.FC<Props> = ({
     setText(TARGET_TEXT);
   }, []);
 
+  const initialScramble = useCallback(async () => {
+    setTimeout(() => {
+      console.log("bar!");
+      scramble();
+    }, initialDelay);
+  }, [initialDelay]);
+
+  useEffect(() => {
+    if (initialDelay >= 0) {
+      initialScramble();
+    }
+  }, []);
+
   return (
     <motion.div
-      onMouseEnter={scramble}
-      onMouseLeave={stopScramble}
+      onMouseEnter={canHoverStart ? scramble : () => {}}
+      onMouseLeave={canHoverStop ? stopScramble : () => {}}
       className="relative overflow-hidden"
     >
       <div className="relative z-10 flex items-center gap-2">
