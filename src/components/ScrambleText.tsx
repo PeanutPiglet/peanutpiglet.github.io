@@ -16,6 +16,7 @@ type Props = {
   initialDelay?: number;
   canHoverStart?: boolean;
   canHoverStop?: boolean;
+  trail?: number;
 };
 
 const ScrambleText: React.FC<Props> = ({
@@ -27,6 +28,7 @@ const ScrambleText: React.FC<Props> = ({
   initialDelay = -1.0,
   canHoverStart = true,
   canHoverStop = true,
+  trail = -1,
 }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const TARGET_TEXT = children;
@@ -39,6 +41,9 @@ const ScrambleText: React.FC<Props> = ({
     intervalRef.current = setInterval(() => {
       const scrambled = TARGET_TEXT.split("")
         .map((char, index) => {
+          if (trail >= 0 && index - pos / cyclesPerLetter > trail) {
+            return " ";
+          }
           if (progressive && pos / cyclesPerLetter > index) {
             return char;
           }

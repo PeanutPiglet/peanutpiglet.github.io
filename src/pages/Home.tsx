@@ -13,55 +13,58 @@ export default function Home() {
         id="main-content-container"
         className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8"
       >
-        <section>
-          <section className="flex justify-center pt-10 font-[monument] text-4xl">
+        <div id="HeroSection" className="border pb-12">
+          <section>
+            <section className="flex justify-center pt-10 font-[monument] text-4xl">
+              <motion.div
+                animate={{
+                  opacity: [0, 1],
+                  transition: { duration: 2 },
+                }}
+              >
+                Hello, this is
+              </motion.div>
+            </section>
+            <section className="flex items-center justify-center">
+              <NameTitle></NameTitle>
+            </section>
+          </section>
+
+          <section className="mt-12 font-[nugo]">
+            <h1 className="text-center italic text-lg">
+              <RisingText
+                text="an undergraduate seeking the secrets of the universe while trying not to scare people away"
+                stagger={0.013}
+                initialY={1000}
+                easing={[0.23, 0.96, 0.29, 0.98]}
+                delay={1}
+              ></RisingText>
+            </h1>
             <motion.div
-              animate={{
-                opacity: [0, 1],
-                transition: { duration: 2 },
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0, delay: 2.1 }}
             >
-              Hello, this is
+              <div className="mt-6 text-2xl text-justify px-12">
+                <ScrambleText
+                  initialDelay={2000}
+                  cyclesPerLetter={0.3}
+                  shuffleTime={30}
+                  canHoverStart={false}
+                  canHoverStop={false}
+                  trail={5}
+                >
+                  My interests orbit around fundamental theories: computation,
+                  physics, philosophy, and — spookiest of all — logic. However,
+                  this doesn't stop me from getting myself immersed in game
+                  development and music production. After all, we have equations
+                  describing the rules of the universe, but none yet capture the
+                  vibrant complex of the human condition.
+                </ScrambleText>
+              </div>
             </motion.div>
           </section>
-          <section className="flex items-center justify-center">
-            <NameTitle></NameTitle>
-          </section>
-        </section>
-
-        <section className="mt-12 font-[nugo]">
-          <h1 className="text-center italic text-lg">
-            <RisingText
-              text="an undergraduate seeking the secrets of the universe while trying not to scare people away"
-              stagger={0.013}
-              initialY={1000}
-              easing={[0.23, 0.96, 0.29, 0.98]}
-              delay={1}
-            ></RisingText>
-          </h1>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0, delay: 2 }}
-          >
-            <div className="mt-6 text-2xl text-justify">
-              <ScrambleText
-                initialDelay={2000}
-                cyclesPerLetter={0.5}
-                shuffleTime={30}
-                canHoverStart={false}
-                canHoverStop={false}
-              >
-                My interests orbit around fundamental theories: computation,
-                physics, philosophy, and — spookiest of all — logic. However,
-                this doesn't stop me from getting myself immersed in game
-                development and music production. After all, we have equations
-                describing the rules of the universe, but none yet capture the
-                vibrant complex of the human condition.
-              </ScrambleText>
-            </div>
-          </motion.div>
-        </section>
+        </div>
 
         <section className="grid gap-6 lg:grid-cols-3">
           <article className="rounded-[24px] border border-white/10 bg-white/5 p-5 backdrop-blur-md">
