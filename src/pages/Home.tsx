@@ -26,7 +26,7 @@ export default function Home() {
               left={true}
               bottom={true}
               thickness="1px"
-              origin="origin-bottom-left"
+              origin="0 100%"
             ></BorderTracer>
           </div>
           <div
@@ -40,7 +40,7 @@ export default function Home() {
               right={true}
               top={true}
               thickness="1px"
-              origin="top-right"
+              origin="100% 0"
             ></BorderTracer>
           </div>
 
