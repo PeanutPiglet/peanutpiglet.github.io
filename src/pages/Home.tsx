@@ -14,86 +14,95 @@ export default function Home() {
         id="main-content-container"
         className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8"
       >
-        <div id="HeroSection" className="relative pb-10">
-          <div
-            id="Hero-LeftBanner"
-            className="absolute left-0 w-20 h-[97%] bottom-0"
-          >
-            <BorderTracer
-              color="#ff549e"
-              anim_delay={2}
-              anim_duration={0.5}
-              left={true}
-              bottom={true}
-              thickness="1px"
-              origin="0 100%"
-            ></BorderTracer>
-          </div>
-          <div
-            id="Hero-RightBanner"
-            className="absolute right-0 w-20 h-[97%] top-0"
-          >
-            <BorderTracer
-              color="#ff549e"
-              anim_delay={2}
-              anim_duration={0.5}
-              right={true}
-              top={true}
-              thickness="1px"
-              origin="100% 0"
-            ></BorderTracer>
-          </div>
+        <div id="HeroSection" className="border h-screen -mt-6 flex flex-col">
+          <div id="HeroTop" className="relative pb-10 mt-6">
+            <div
+              id="Hero-LeftBanner"
+              className="absolute left-0 w-20 h-[97%] bottom-0"
+            >
+              <BorderTracer
+                color="#ff549e"
+                anim_delay={4}
+                anim_duration={0.5}
+                left={true}
+                bottom={true}
+                thickness="1px"
+                origin="0 100%"
+              ></BorderTracer>
+            </div>
+            <div
+              id="Hero-RightBanner"
+              className="absolute right-0 w-20 h-[97%] top-0"
+            >
+              <BorderTracer
+                color="#ff549e"
+                anim_delay={4}
+                anim_duration={0.5}
+                right={true}
+                top={true}
+                thickness="1px"
+                origin="100% 0"
+              ></BorderTracer>
+            </div>
 
-          <section>
-            <section className="flex justify-center pt-10 font-[monument] text-4xl">
+            <section>
+              <section className="flex justify-center font-[monument] pt-6 text-2xl">
+                <motion.div
+                  animate={{
+                    opacity: [0, 1],
+                    transition: { duration: 2 },
+                  }}
+                >
+                  Hello, this is
+                </motion.div>
+              </section>
+              <section className="flex items-center justify-center">
+                <NameTitle></NameTitle>
+              </section>
+            </section>
+
+            <section className="mt-12 font-[nugo]">
+              <h1 className="text-center italic text-md px-12">
+                <RisingText
+                  text="an undergraduate seeking the secrets of the universe while trying not to scare people away"
+                  stagger={0.013}
+                  initialY={-800}
+                  easing={[0.23, 0.96, 0.29, 0.98]}
+                  delay={1}
+                ></RisingText>
+              </h1>
               <motion.div
-                animate={{
-                  opacity: [0, 1],
-                  transition: { duration: 2 },
-                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0, delay: 1.1 }}
               >
-                Hello, this is
+                <div className="mt-6 text-lg text-justify px-12">
+                  <ScrambleText
+                    initialDelay={1000}
+                    cyclesPerLetter={0.3}
+                    shuffleTime={30}
+                    canHoverStart={false}
+                    canHoverStop={false}
+                    trail={5}
+                  >
+                    My interests orbit around fundamental theories: computation,
+                    physics, philosophy, and — spookiest of all — logic.
+                    However, this doesn't stop me from getting myself immersed
+                    in game development and music production. After all, we have
+                    equations describing the rules of the universe, but none yet
+                    capture the vibrant complex of the human condition.
+                  </ScrambleText>
+                </div>
               </motion.div>
             </section>
-            <section className="flex items-center justify-center">
-              <NameTitle></NameTitle>
-            </section>
-          </section>
+          </div>
 
-          <section className="mt-12 font-[nugo]">
-            <h1 className="text-center italic text-lg px-12">
-              <RisingText
-                text="an undergraduate seeking the secrets of the universe while trying not to scare people away"
-                stagger={0.013}
-                initialY={-800}
-                easing={[0.23, 0.96, 0.29, 0.98]}
-                delay={1}
-              ></RisingText>
-            </h1>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0, delay: 1.1 }}
-            >
-              <div className="mt-6 text-2xl text-justify px-12">
-                <ScrambleText
-                  initialDelay={1000}
-                  cyclesPerLetter={0.3}
-                  shuffleTime={30}
-                  canHoverStart={false}
-                  canHoverStop={false}
-                  trail={5}
-                >
-                  My interests orbit around fundamental theories: computation,
-                  physics, philosophy, and — spookiest of all — logic. However,
-                  this doesn't stop me from getting myself immersed in game
-                  development and music production. After all, we have equations
-                  describing the rules of the universe, but none yet capture the
-                  vibrant complex of the human condition.
-                </ScrambleText>
-              </div>
-            </motion.div>
-          </section>
+          <div
+            id="HeroBottom"
+            className="grow justify-center items-center flex"
+          >
+            <div className="my-auto">Placeholder</div>
+          </div>
         </div>
 
         <section className="grid gap-6 lg:grid-cols-3">
