@@ -1,46 +1,33 @@
-# Astro Starter Kit: Basics
+# Jack Tang's Website 🌐
+![React](https://img.shields.io/badge/React-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Astro](https://img.shields.io/badge/Astro-BC52EE?style=for-the-badge&logo=astro&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=fff)
 
-```sh
-npm create astro@latest -- --template basics
-```
+Repository for my personal website. Currently undergoing significant overhaul.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+⚠️ Initial Work-In-Progress
 
-## 🚀 Project Structure
+# Website Sections (planned)
+* 🏠 **Home Page** (in-progress)
+  
+* 📄 **Blog**
+  * 🔍 Technical + Research
+  * 🔮 Creative + Poetry
+    
+* 📂 **Project Showcase**
+  
+* 🖼️ **Gallary**
+  * 🖥️ CG Art
+  * 🎧 Music
+  * 📸 Photo
+    
+* 🧐 **In-site ARG Puzzle?**
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+# Technical 
+* React and Astro for core engine
+* Typescript for code precision
+* Framer Motion for animation
+* Lenis for smooth scrolling
+* React Three Fiber (possibly for 3D fun)
