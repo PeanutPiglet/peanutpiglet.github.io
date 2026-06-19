@@ -18,7 +18,7 @@ Repository for my personal website. Currently undergoing significant overhaul.
     
 * 📂 **Project Showcase**
   
-* 🖼️ **Gallary**
+* 🖼️ **Gallery**
   * 🖥️ CG Art
   * 🎧 Music
   * 📸 Photo
