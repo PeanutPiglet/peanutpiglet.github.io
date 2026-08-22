@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { motion } from "motion/react";
+import { useLenis } from "lenis/react";
 import NightSkyConstellations from "../components/NightSkyConstellations.tsx";
 import NameTitle from "../components/Home/NameTitle.tsx";
 import RisingText from "../components/RisingText.tsx";
@@ -6,6 +8,16 @@ import ScrambleText from "../components/ScrambleText.tsx";
 import BorderTracer from "../components/Home/BorderTracer.tsx";
 
 export default function Home() {
+  const [showScrollHint, setShowScrollHint] = useState(true);
+
+  useLenis(({ progress, direction }) => {
+    if (direction === 1 && progress > 0.3) {
+      setShowScrollHint(false);
+    } else if (direction === -1 && progress <= 0.3) {
+      setShowScrollHint(true);
+    }
+  });
+
   return (
     <main className="relative min-h-screen overflow-hidden text-white">
       <NightSkyConstellations></NightSkyConstellations>
@@ -106,22 +118,31 @@ export default function Home() {
               className="my-auto flex h-1/2 w-2/3 flex-col items-center justify-center gap-6 border-2 p-4 sm:flex-row sm:gap-8"
             >
               <motion.div
-                className="flex items-center justify-center gap-3 sm:w-1/3 sm:justify-start"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 4 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 5 }}
               >
-                <motion.span
-                  aria-hidden="true"
-                  className="text-2xl leading-none text-[#ff549e]"
-                  animate={{ y: [0, 7, 0] }}
-                  transition={{ duration: 1.5, delay: 5, repeat: Infinity }}
+                <motion.div
+                  className="flex items-center justify-center gap-3 sm:w-1/3 md:w-2/3 lg:w-full sm:justify-start"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{
+                    opacity: showScrollHint ? 1 : 0,
+                    y: showScrollHint ? 0 : 12,
+                  }}
+                  transition={{ duration: 0.6 }}
                 >
-                  ↓
-                </motion.span>
-                <p className="text-center text-sm italic text-white/70 sm:text-left">
-                  Scroll down for more content
-                </p>
+                  <motion.span
+                    aria-hidden="true"
+                    className="text-2xl leading-none text-[#ff549e]"
+                    animate={{ y: [0, 7, 0] }}
+                    transition={{ duration: 1.5, delay: 5, repeat: Infinity }}
+                  >
+                    ↓
+                  </motion.span>
+                  <p className="text-center text-sm italic text-white/70 sm:text-left">
+                    Scroll down for more content
+                  </p>
+                </motion.div>
               </motion.div>
               <div className="flex w-full flex-col items-center gap-4 sm:w-2/3">
                 <a
