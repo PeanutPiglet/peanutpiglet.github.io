@@ -105,9 +105,24 @@ export default function Home() {
               id="contacts-container-middle"
               className="my-auto flex h-1/2 w-2/3 flex-col items-center justify-center gap-6 border-2 p-4 sm:flex-row sm:gap-8"
             >
-              <p className="text-center text-sm italic text-white/70 sm:w-1/3 sm:text-left">
-                Scroll down for more content
-              </p>
+              <motion.div
+                className="flex items-center justify-center gap-3 sm:w-1/3 sm:justify-start"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 4 }}
+              >
+                <motion.span
+                  aria-hidden="true"
+                  className="text-2xl leading-none text-[#ff549e]"
+                  animate={{ y: [0, 7, 0] }}
+                  transition={{ duration: 1.5, delay: 5, repeat: Infinity }}
+                >
+                  ↓
+                </motion.span>
+                <p className="text-center text-sm italic text-white/70 sm:text-left">
+                  Scroll down for more content
+                </p>
+              </motion.div>
               <div className="flex w-full flex-col items-center gap-4 sm:w-2/3">
                 <a
                   href="https://github.com/peanutpiglet"
