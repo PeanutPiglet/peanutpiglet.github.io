@@ -143,18 +143,17 @@ export default function Home() {
               }}
               className="my-auto flex h-1/2 w-2/3 flex-col items-center justify-center gap-6 border-2 p-4 sm:flex-row sm:gap-8"
             >
-              <div className="flex w-full flex-col items-center gap-4 sm:w-2/3 border border-amber-500">
-                {/* Host container for pagelinks buttons initial layout*/}
-
+              {/* Host container for pagelinks buttons initial layout*/}
+              <div className="flex w-full flex-col items-center gap-4 sm:w-2/3">
+                {/* Pagelinks buttons morphing container */}
                 <motion.div
                   layout
                   className={
                     isSidebarCollapsed
-                      ? "fixed right-4 top-1/2 z-30 flex w-14 -translate-y-1/2 flex-col items-center gap-2 border border-white/20 bg-black/35 p-2 shadow-[0_12px_40px_-20px_rgba(0,0,0,0.9)] backdrop-blur-md"
+                      ? "fixed left-4 top-1/8 z-30 flex w-14 -translate-y-1/2 flex-col items-center gap-2 border border-white/20 bg-black/35 p-2 shadow-[0_12px_40px_-20px_rgba(0,0,0,0.9)] backdrop-blur-md"
                       : "flex w-full flex-col items-center gap-4"
                   }
                 >
-                  {/* Pagelinks buttons morphing container */}
                   {contactLinks.map(({ href, icon, label, external }) => (
                     <motion.a
                       key={label}
@@ -187,6 +186,7 @@ export default function Home() {
                 </motion.div>
               </div>
 
+              {/* Scroll down hint */}
               <motion.div
                 layout
                 initial={{ opacity: 0 }}
@@ -194,7 +194,6 @@ export default function Home() {
                 transition={{ duration: 1, delay: 5 }}
                 // className={isSidebarCollapsed ? "hidden" : "block"}
               >
-                {/* Scroll down hint */}
                 <motion.div
                   className="flex items-center justify-center gap-3 sm:w-1/3 md:w-2/3 lg:w-full sm:justify-start"
                   initial={{ opacity: 0, y: 12 }}
@@ -218,18 +217,17 @@ export default function Home() {
                 </motion.div>
               </motion.div>
 
-              <div className="flex w-full flex-col items-center gap-4 sm:w-2/3 border border-amber-500">
-                {/* Host container for contact buttons initial layout*/}
-
+              {/* Host container for contact buttons initial layout*/}
+              <div className="flex w-full flex-col items-center gap-4 sm:w-2/3">
+                {/* Contact buttons morphing container */}
                 <motion.div
                   layout
                   className={
                     isSidebarCollapsed
-                      ? "fixed right-4 top-1/2 z-30 flex w-14 -translate-y-1/2 flex-col items-center gap-2 border border-white/20 bg-black/35 p-2 shadow-[0_12px_40px_-20px_rgba(0,0,0,0.9)] backdrop-blur-md"
+                      ? "fixed right-4 top-1/8 z-30 flex w-14 -translate-y-1/2 flex-col items-center gap-2 border border-white/20 bg-black/35 p-2 shadow-[0_12px_40px_-20px_rgba(0,0,0,0.9)] backdrop-blur-md"
                       : "flex w-full flex-col items-center gap-4"
                   }
                 >
-                  {/* Contact buttons morphing container */}
                   {contactLinks.map(({ href, icon, label, external }) => (
                     <motion.a
                       key={label}
