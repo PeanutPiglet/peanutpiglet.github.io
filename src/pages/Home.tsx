@@ -9,6 +9,28 @@ import BorderTracer from "../components/Home/BorderTracer.tsx";
 
 export default function Home() {
   const [showScrollHint, setShowScrollHint] = useState(true);
+  const isContactsCollapsed = !showScrollHint;
+
+  const contactLinks = [
+    {
+      href: "https://github.com/peanutpiglet",
+      icon: "GH",
+      label: "GitHub",
+      external: true,
+    },
+    {
+      href: "mailto:hello@example.com",
+      icon: "@",
+      label: "Email",
+      external: false,
+    },
+    {
+      href: "https://www.linkedin.com/",
+      icon: "in",
+      label: "LinkedIn",
+      external: true,
+    },
+  ];
 
   useLenis(({ progress, direction }) => {
     if (direction === 1 && progress > 0.3) {
@@ -113,14 +135,20 @@ export default function Home() {
             id="HeroBottom"
             className="grow justify-center items-center flex"
           >
-            <div
+            <motion.div
               id="contacts-container-middle"
+              layout
+              transition={{
+                layout: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+              }}
               className="my-auto flex h-1/2 w-2/3 flex-col items-center justify-center gap-6 border-2 p-4 sm:flex-row sm:gap-8"
             >
               <motion.div
+                layout
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 5 }}
+                className={isContactsCollapsed ? "hidden" : "block"}
               >
                 <motion.div
                   className="flex items-center justify-center gap-3 sm:w-1/3 md:w-2/3 lg:w-full sm:justify-start"
@@ -145,33 +173,46 @@ export default function Home() {
                 </motion.div>
               </motion.div>
               <div className="flex w-full flex-col items-center gap-4 sm:w-2/3">
-                <a
-                  href="https://github.com/peanutpiglet"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex w-full max-w-md items-center gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
+                <motion.div
+                  layout
+                  className={
+                    isContactsCollapsed
+                      ? "fixed right-4 top-1/2 z-30 flex w-14 -translate-y-1/2 flex-col items-center gap-2 border border-white/20 bg-black/35 p-2 shadow-[0_12px_40px_-20px_rgba(0,0,0,0.9)] backdrop-blur-md"
+                      : "flex w-full flex-col items-center gap-4"
+                  }
                 >
-                  <span aria-hidden="true">GH</span>
-                  <span>GitHub</span>
-                </a>
-                <a
-                  href="mailto:hello@example.com"
-                  className="flex w-full max-w-md items-center gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
-                >
-                  <span aria-hidden="true">@</span>
-                  <span>Email</span>
-                </a>
-                <a
-                  href="https://www.linkedin.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex w-full max-w-md items-center gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
-                >
-                  <span aria-hidden="true">in</span>
-                  <span>LinkedIn</span>
-                </a>
+                  {contactLinks.map(({ href, icon, label, external }) => (
+                    <motion.a
+                      key={label}
+                      layout
+                      href={href}
+                      target={external ? "_blank" : undefined}
+                      rel={external ? "noreferrer" : undefined}
+                      aria-label={label}
+                      title={label}
+                      className={
+                        isContactsCollapsed
+                          ? "flex aspect-square w-10 items-center justify-center border border-white/30 text-sm transition-colors hover:border-[#ff549e] hover:text-[#ff549e]"
+                          : "flex w-full max-w-md items-center gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
+                      }
+                    >
+                      <span aria-hidden="true">{icon}</span>
+                      <motion.span
+                        initial={false}
+                        animate={{
+                          opacity: isContactsCollapsed ? 0 : 1,
+                          width: isContactsCollapsed ? 0 : "auto",
+                        }}
+                        transition={{ duration: 0.35 }}
+                        className="overflow-hidden whitespace-nowrap"
+                      >
+                        {label}
+                      </motion.span>
+                    </motion.a>
+                  ))}
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
 
