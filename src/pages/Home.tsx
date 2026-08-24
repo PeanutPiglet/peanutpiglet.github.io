@@ -133,9 +133,12 @@ export default function Home() {
             </section>
           </div>
 
-          <div
+          <motion.div
             id="HeroBottom"
             className="grow justify-center items-center flex"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 5 }}
           >
             <motion.div
               id="heroBottom-container-middle"
@@ -191,8 +194,8 @@ export default function Home() {
               {/* Scroll down hint */}
               <motion.div
                 layout
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ y: -10 }}
+                animate={{ y: 0 }}
                 transition={{ duration: 1, delay: 5 }}
                 // className={isSidebarCollapsed ? "hidden" : "block"}
               >
@@ -262,7 +265,7 @@ export default function Home() {
                 </motion.div>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
 
         <section className="grid gap-6 lg:grid-cols-3">
