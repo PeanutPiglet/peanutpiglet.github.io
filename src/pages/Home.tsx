@@ -8,6 +8,8 @@ import ScrambleText from "../components/ScrambleText.tsx";
 import BorderTracer from "../components/Home/BorderTracer.tsx";
 
 export default function Home() {
+  const SCROLL_THRESHOLD_HINT = 0.5;
+
   const [showScrollHint, setShowScrollHint] = useState(true);
   const isSidebarCollapsed = !showScrollHint;
 
@@ -33,9 +35,9 @@ export default function Home() {
   ];
 
   useLenis(({ progress, direction }) => {
-    if (direction === 1 && progress > 0.3) {
+    if (direction === 1 && progress > SCROLL_THRESHOLD_HINT) {
       setShowScrollHint(false);
-    } else if (direction === -1 && progress <= 0.3) {
+    } else if (direction === -1 && progress <= SCROLL_THRESHOLD_HINT) {
       setShowScrollHint(true);
     }
   });
