@@ -196,6 +196,7 @@ export default function Home() {
                         label={label}
                         external={external}
                         collapsed={isSidebarCollapsed}
+                        justifyRight={false}
                         key={label}
                       ></IconButton>
                     ),
@@ -254,6 +255,7 @@ export default function Home() {
                         label={label}
                         external={external}
                         collapsed={isSidebarCollapsed}
+                        justifyRight={true}
                         key={label}
                       ></IconButton>
                     ),
