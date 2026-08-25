@@ -6,6 +6,7 @@ import NameTitle from "../components/Home/NameTitle.tsx";
 import RisingText from "../components/RisingText.tsx";
 import ScrambleText from "../components/ScrambleText.tsx";
 import BorderTracer from "../components/Home/BorderTracer.tsx";
+import IconButton from "../components/Buttons/IconButton.tsx";
 
 export default function Home() {
   const SCROLL_THRESHOLD_HINT = 0.5;
@@ -188,55 +189,15 @@ export default function Home() {
                 >
                   {pageLinks.map(
                     ({ href, icon, viewSize, label, external }) => (
-                      <motion.a
-                        key={label}
-                        layout
+                      <IconButton
                         href={href}
-                        target={external ? "_blank" : undefined}
-                        rel={external ? "noreferrer" : undefined}
-                        aria-label={label}
-                        title={label}
-                        className={
-                          isSidebarCollapsed
-                            ? "flex aspect-square w-10 items-center justify-center border border-white/30 text-sm transition-colors hover:border-[#ff549e] hover:text-[#ff549e]"
-                            : "flex w-full max-w-md items-center gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
-                        }
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="flex justify-center w-12"
-                        >
-                          <svg
-                            width="100%"
-                            height="100%"
-                            data-name="Layer 2"
-                            viewBox={viewSize}
-                          >
-                            <path
-                              d={icon}
-                              style={{
-                                fill: "none",
-                                stroke: "#ffffff",
-                                vectorEffect: "non-scaling-stroke",
-                                strokeLinecap: "round",
-                                strokeLinejoin: "round",
-                                fillRule: "evenodd",
-                              }}
-                            />
-                          </svg>
-                        </span>
-                        <motion.span
-                          initial={false}
-                          animate={{
-                            opacity: isSidebarCollapsed ? 0 : 1,
-                            width: isSidebarCollapsed ? 0 : "auto",
-                          }}
-                          transition={{ duration: 0.35 }}
-                          className="overflow-hidden whitespace-nowrap"
-                        >
-                          {label}
-                        </motion.span>
-                      </motion.a>
+                        icon={icon}
+                        viewSize={viewSize}
+                        label={label}
+                        external={external}
+                        collapsed={isSidebarCollapsed}
+                        key={label}
+                      ></IconButton>
                     ),
                   )}
                 </motion.div>
@@ -286,55 +247,15 @@ export default function Home() {
                 >
                   {contactLinks.map(
                     ({ href, icon, viewSize, label, external }) => (
-                      <motion.a
-                        key={label}
-                        layout
+                      <IconButton
                         href={href}
-                        target={external ? "_blank" : undefined}
-                        rel={external ? "noreferrer" : undefined}
-                        aria-label={label}
-                        title={label}
-                        className={
-                          isSidebarCollapsed
-                            ? "flex aspect-square w-10 items-center justify-center border border-white/30 text-sm transition-colors hover:border-[#ff549e] hover:text-[#ff549e]"
-                            : "flex w-full max-w-md items-center justify-end gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
-                        }
-                      >
-                        <motion.span
-                          initial={false}
-                          animate={{
-                            opacity: isSidebarCollapsed ? 0 : 1,
-                            width: isSidebarCollapsed ? 0 : "auto",
-                          }}
-                          transition={{ duration: 0.35 }}
-                          className="overflow-hidden whitespace-nowrap"
-                        >
-                          {label}
-                        </motion.span>
-                        <span
-                          aria-hidden="true"
-                          className="flex justify-center w-12"
-                        >
-                          <svg
-                            width="100%"
-                            height="100%"
-                            data-name="Layer 2"
-                            viewBox={viewSize}
-                          >
-                            <path
-                              d={icon}
-                              style={{
-                                fill: "none",
-                                stroke: "#ffffff",
-                                vectorEffect: "non-scaling-stroke",
-                                strokeLinecap: "round",
-                                strokeLinejoin: "round",
-                                fillRule: "evenodd",
-                              }}
-                            />
-                          </svg>
-                        </span>
-                      </motion.a>
+                        icon={icon}
+                        viewSize={viewSize}
+                        label={label}
+                        external={external}
+                        collapsed={isSidebarCollapsed}
+                        key={label}
+                      ></IconButton>
                     ),
                   )}
                 </motion.div>
