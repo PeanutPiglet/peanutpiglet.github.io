@@ -28,7 +28,7 @@ export default function IconButton({
       title={label}
       className={
         collapsed
-          ? "flex aspect-square w-10 items-center justify-center border border-white/30 text-sm transition-colors hover:border-[#ff549e] hover:text-[#ff549e]"
+          ? "flex aspect-square w-10 p-1 items-center justify-center border border-white/30 text-sm transition-colors hover:border-[#ff549e] hover:text-[#ff549e]"
           : "flex w-full max-w-md items-center gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
       }
       style={{ justifyContent: justifyRight ? "flex-end" : "flex-start" }}
