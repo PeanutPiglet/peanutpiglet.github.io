@@ -38,6 +38,8 @@ function generateConstellations(
   const stars: Star[] = [];
   const baseStarDensity = 600 / (2400 * 2400);
   const numStars = Math.max(100, Math.round(width * height * baseStarDensity));
+  const motionXAmount = 48;
+  const motionYAmount = 48;
 
   // Generate star positions and brightness
   for (let i = 0; i < numStars; i++) {
@@ -53,19 +55,19 @@ function generateConstellations(
       motion: {
         xOffsets: [
           0,
-          (seededRandom(motionSeed) - 0.5) * 16,
-          (seededRandom(motionSeed + 1) - 0.5) * 16,
-          (seededRandom(motionSeed + 2) - 0.5) * 16,
+          (seededRandom(motionSeed) - 0.5) * motionXAmount,
+          (seededRandom(motionSeed + 1) - 0.5) * motionXAmount,
+          (seededRandom(motionSeed + 2) - 0.5) * motionXAmount,
           0,
         ],
         yOffsets: [
           0,
-          (seededRandom(motionSeed + 3) - 0.5) * 16,
-          (seededRandom(motionSeed + 4) - 0.5) * 16,
-          (seededRandom(motionSeed + 5) - 0.5) * 16,
+          (seededRandom(motionSeed + 3) - 0.5) * motionYAmount,
+          (seededRandom(motionSeed + 4) - 0.5) * motionYAmount,
+          (seededRandom(motionSeed + 5) - 0.5) * motionYAmount,
           0,
         ],
-        duration: 18 + seededRandom(motionSeed + 6) * 24,
+        duration: 16 + seededRandom(motionSeed + 6) * 36,
       },
     });
   }
