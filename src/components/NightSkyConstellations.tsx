@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 // Seeded random number generator for reproducible constellations
 function seededRandom(seed: number): number {
@@ -26,7 +26,10 @@ interface ConstellationData {
 }
 
 // Generate stars and constellation lines
-function generateConstellations(width: number, height: number): ConstellationData {
+function generateConstellations(
+  width: number,
+  height: number,
+): ConstellationData {
   const stars: Star[] = [];
   const baseStarDensity = 600 / (2400 * 2400);
   const numStars = Math.max(100, Math.round(width * height * baseStarDensity));
@@ -53,7 +56,11 @@ function generateConstellations(width: number, height: number): ConstellationDat
   for (let i = 0; i < stars.length; i++) {
     let connectionCount = 0;
 
-    for (let j = i + 1; j < stars.length && connectionCount < maxConnectionsPerStar; j++) {
+    for (
+      let j = i + 1;
+      j < stars.length && connectionCount < maxConnectionsPerStar;
+      j++
+    ) {
       const dx = stars[i].x - stars[j].x;
       const dy = stars[i].y - stars[j].y;
       const distance = Math.sqrt(dx * dx + dy * dy);
@@ -75,7 +82,9 @@ function generateConstellations(width: number, height: number): ConstellationDat
   }
 
   // Prune stars without connections
-  const connectedStars = stars.filter((_, idx) => connectedStarIndices.has(idx));
+  const connectedStars = stars.filter((_, idx) =>
+    connectedStarIndices.has(idx),
+  );
 
   return { stars: connectedStars, lines };
 }
@@ -87,7 +96,7 @@ interface NightSkyConstellationsProps {
 }
 
 export default function NightSkyConstellations({
-  className = '',
+  className = "",
   width,
   height,
 }: NightSkyConstellationsProps) {
@@ -103,9 +112,9 @@ export default function NightSkyConstellations({
     };
 
     updateViewport();
-    window.addEventListener('resize', updateViewport);
+    window.addEventListener("resize", updateViewport);
 
-    return () => window.removeEventListener('resize', updateViewport);
+    return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
   const viewWidth = width ?? (viewport.width || 1440);
@@ -118,25 +127,28 @@ export default function NightSkyConstellations({
   if (!data) return null;
 
   return (
-    <div className={`fixed inset-0 overflow-hidden bg-black ${className}`} style={{ zIndex: -1 }}>
+    <div
+      className={`fixed inset-0 overflow-hidden bg-black ${className}`}
+      style={{ zIndex: -1 }}
+    >
       <div
         aria-hidden="true"
-        className='h-full w-full'
+        className="h-full w-full"
         style={{
-          position: 'absolute',
+          position: "absolute",
           inset: 0,
           background:
-            'radial-gradient(ellipse 300% 200% at 50% 150%, rgba(255, 84, 158, 1) 0%, rgba(255, 84, 158, 0.2) 24%, rgba(255, 84, 158, 0.1) 40%, rgba(30, 13, 33, 0) 56%)',
-          pointerEvents: 'none',
-          mixBlendMode: 'screen',
+            "radial-gradient(ellipse 300% 200% at 50% 150%, rgba(255, 84, 158, 1) 0%, rgba(255, 84, 158, 0.2) 24%, rgba(255, 84, 158, 0.1) 40%, rgba(30, 13, 33, 0) 56%)",
+          pointerEvents: "none",
+          mixBlendMode: "screen",
         }}
       />
       <svg
         viewBox={`0 0 ${viewWidth} ${viewHeight}`}
         className="block"
         style={{
-          width: '100vw',
-          height: '100vh',
+          width: "100vw",
+          height: "100vh",
         }}
         preserveAspectRatio="none"
       >
@@ -151,37 +163,55 @@ export default function NightSkyConstellations({
           </filter>
         </defs>
 
-        {/* Constellation lines - render first (background) */}
-        <g opacity="1.0">
-          {data.lines.map((line, idx) => (
-            <line
-              key={`line-${idx}`}
-              x1={line.x1}
-              y1={line.y1}
-              x2={line.x2}
-              y2={line.y2}
-              stroke="rgba(255, 187, 84, 0.4)"
-              strokeWidth="1.4"
-              opacity={line.opacity}
-              strokeLinecap="round"
-            />
-          ))}
-        </g>
+        <g>
+          <animateTransform
+            attributeName="transform"
+            type="translate"
+            values="0 0; 12 -8; -8 10; 0 0"
+            dur="28s"
+            repeatCount="indefinite"
+          />
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            values={`0 ${viewWidth / 2} ${viewHeight / 2}; 0.35 ${viewWidth / 2} ${viewHeight / 2}; 0 ${viewWidth / 2} ${viewHeight / 2}`}
+            dur="36s"
+            repeatCount="indefinite"
+            additive="sum"
+          />
 
-        {/* Stars - render after lines */}
-        <g filter="url(#starGlow)">
-          {data.stars.map((star, idx) => {
-            const radius = 0.4 + star.brightness * 0.8;
-            return (
-              <circle
-                key={`star-${idx}`}
-                cx={star.x}
-                cy={star.y}
-                r={radius}
-                fill={`rgba(255, 84, 158, ${star.brightness})`}
+          {/* Constellation lines - render first (background) */}
+          <g opacity="1.0">
+            {data.lines.map((line, idx) => (
+              <line
+                key={`line-${idx}`}
+                x1={line.x1}
+                y1={line.y1}
+                x2={line.x2}
+                y2={line.y2}
+                stroke="rgba(255, 187, 84, 0.4)"
+                strokeWidth="1.4"
+                opacity={line.opacity}
+                strokeLinecap="round"
               />
-            );
-          })}
+            ))}
+          </g>
+
+          {/* Stars - render after lines */}
+          <g filter="url(#starGlow)">
+            {data.stars.map((star, idx) => {
+              const radius = 0.4 + star.brightness * 0.8;
+              return (
+                <circle
+                  key={`star-${idx}`}
+                  cx={star.x}
+                  cy={star.y}
+                  r={radius}
+                  fill={`rgba(255, 84, 158, ${star.brightness})`}
+                />
+              );
+            })}
+          </g>
         </g>
       </svg>
     </div>
