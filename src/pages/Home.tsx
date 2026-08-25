@@ -165,9 +165,9 @@ export default function Home() {
 
           <motion.div
             id="HeroBottom"
-            className="grow justify-center items-center flex"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            className="grow justify-center items-center"
+            initial={{ opacity: 0, display: "none" }}
+            animate={{ opacity: 1, display: "flex" }}
             transition={{ duration: 1, delay: 5 }}
           >
             <motion.div
