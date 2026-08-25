@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
+import { useDebouncedCall } from "./CommonHooks";
 
 // Seeded random number generator for reproducible constellations
 function seededRandom(seed: number): number {
@@ -130,20 +131,20 @@ export default function NightSkyConstellations({
   console.log("Sky being rendered");
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
   const [data, setData] = useState<ConstellationData | null>(null);
+  const updateViewport = useCallback(() => {
+    setViewport({
+      width: window.innerWidth || 1440,
+      height: window.innerHeight || 900,
+    });
+  }, []);
+  const tryUpdateViewport = useDebouncedCall(updateViewport, [], 500, true);
 
   useEffect(() => {
-    const updateViewport = () => {
-      setViewport({
-        width: window.innerWidth || 1440,
-        height: window.innerHeight || 900,
-      });
-    };
-
     updateViewport();
-    window.addEventListener("resize", updateViewport);
+    window.addEventListener("resize", tryUpdateViewport);
 
-    return () => window.removeEventListener("resize", updateViewport);
-  }, []);
+    return () => window.removeEventListener("resize", tryUpdateViewport);
+  }, [tryUpdateViewport, updateViewport]);
 
   const viewWidth = width ?? (viewport.width || 1440);
   const viewHeight = height ?? (viewport.height || 900);
