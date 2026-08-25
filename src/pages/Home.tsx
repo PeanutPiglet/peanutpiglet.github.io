@@ -72,7 +72,9 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen overflow-hidden text-white">
-      <NightSkyConstellations></NightSkyConstellations>
+      <div className="-z-50">
+        <NightSkyConstellations></NightSkyConstellations>
+      </div>
 
       <div
         id="main-content-container"
