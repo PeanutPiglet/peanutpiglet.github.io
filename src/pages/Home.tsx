@@ -16,21 +16,24 @@ export default function Home() {
   const contactLinks = [
     {
       href: "https://github.com/peanutpiglet",
-      icon: "GH",
+      icon: "M24 2.5a21.5 21.5 0 0 0-6.8 41.9c1.08.2 1.47-.46 1.47-1v-3.65c-6 1.3-7.24-2.88-7.24-2.88A5.7 5.7 0 0 0 9 33.68c-1.95-1.33.15-1.31.15-1.31a4.52 4.52 0 0 1 3.29 2.22c1.92 3.29 5 2.34 6.26 1.79a4.61 4.61 0 0 1 1.37-2.88c-4.78-.54-9.8-2.38-9.8-10.62a8.29 8.29 0 0 1 2.22-5.77 7.68 7.68 0 0 1 .21-5.69s1.8-.58 5.91 2.2a20.46 20.46 0 0 1 10.76 0c4.11-2.78 5.91-2.2 5.91-2.2a7.74 7.74 0 0 1 .21 5.69 8.28 8.28 0 0 1 2.21 5.77c0 8.26-5 10.07-9.81 10.61a5.12 5.12 0 0 1 1.46 4v5.9c0 .71.39 1.24 1.48 1A21.5 21.5 0 0 0 24 2.5",
+      viewSize: "0 0 48 48",
       label: "GitHub",
       external: true,
     },
     {
-      href: "mailto:hello@example.com",
-      icon: "@",
-      label: "Email",
-      external: false,
-    },
-    {
-      href: "https://www.linkedin.com/",
-      icon: "in",
+      href: "https://linkedin.com",
+      icon: "M22 3.47v17.06A1.47 1.47 0 0 1 20.53 22H3.47A1.47 1.47 0 0 1 2 20.53V3.47A1.47 1.47 0 0 1 3.47 2h17.06A1.47 1.47 0 0 1 22 3.47ZM7.882 9.648h-2.94v9.412h2.94V9.647Zm.265-3.235a1.694 1.694 0 0 0-1.682-1.706h-.053a1.706 1.706 0 0 0 0 3.412 1.694 1.694 0 0 0 1.735-1.653v-.053Zm10.912 6.93c0-2.83-1.8-3.93-3.588-3.93a3.353 3.353 0 0 0-2.977 1.517h-.082V9.647H9.647v9.412h2.941v-5.006a1.953 1.953 0 0 1 1.765-2.106h.112c.935 0 1.63.588 1.63 2.07v5.042h2.94l.024-5.718Z",
+      viewSize: "0 0 24 24",
       label: "LinkedIn",
       external: true,
+    },
+    {
+      href: "mailto:hello@example.com",
+      icon: "M3.75 5.25 3 6v12l.75.75h16.5L21 18V6l-.75-.75H3.75Zm.75 2.446v9.554h15V7.695L12 14.514 4.5 7.696Zm13.81-.946H5.69L12 12.486l6.31-5.736Z",
+      viewSize: "0 0 24 24",
+      label: "Email",
+      external: false,
     },
   ];
 
@@ -159,35 +162,59 @@ export default function Home() {
                       : "flex w-full flex-col items-center gap-4"
                   }
                 >
-                  {contactLinks.map(({ href, icon, label, external }) => (
-                    <motion.a
-                      key={label}
-                      layout
-                      href={href}
-                      target={external ? "_blank" : undefined}
-                      rel={external ? "noreferrer" : undefined}
-                      aria-label={label}
-                      title={label}
-                      className={
-                        isSidebarCollapsed
-                          ? "flex aspect-square w-10 items-center justify-center border border-white/30 text-sm transition-colors hover:border-[#ff549e] hover:text-[#ff549e]"
-                          : "flex w-full max-w-md items-center gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
-                      }
-                    >
-                      <span aria-hidden="true">{icon}</span>
-                      <motion.span
-                        initial={false}
-                        animate={{
-                          opacity: isSidebarCollapsed ? 0 : 1,
-                          width: isSidebarCollapsed ? 0 : "auto",
-                        }}
-                        transition={{ duration: 0.35 }}
-                        className="overflow-hidden whitespace-nowrap"
+                  {contactLinks.map(
+                    ({ href, icon, viewSize, label, external }) => (
+                      <motion.a
+                        key={label}
+                        layout
+                        href={href}
+                        target={external ? "_blank" : undefined}
+                        rel={external ? "noreferrer" : undefined}
+                        aria-label={label}
+                        title={label}
+                        className={
+                          isSidebarCollapsed
+                            ? "flex aspect-square w-10 items-center justify-center border border-white/30 text-sm transition-colors hover:border-[#ff549e] hover:text-[#ff549e]"
+                            : "flex w-full max-w-md items-center gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
+                        }
                       >
-                        {label}
-                      </motion.span>
-                    </motion.a>
-                  ))}
+                        <span
+                          aria-hidden="true"
+                          className="flex justify-center w-12"
+                        >
+                          <svg
+                            width="100%"
+                            height="100%"
+                            data-name="Layer 2"
+                            viewBox={viewSize}
+                          >
+                            <path
+                              d={icon}
+                              style={{
+                                fill: "none",
+                                stroke: "#ffffff",
+                                vectorEffect: "non-scaling-stroke",
+                                strokeLinecap: "round",
+                                strokeLinejoin: "round",
+                                fillRule: "evenodd",
+                              }}
+                            />
+                          </svg>
+                        </span>
+                        <motion.span
+                          initial={false}
+                          animate={{
+                            opacity: isSidebarCollapsed ? 0 : 1,
+                            width: isSidebarCollapsed ? 0 : "auto",
+                          }}
+                          transition={{ duration: 0.35 }}
+                          className="overflow-hidden whitespace-nowrap"
+                        >
+                          {label}
+                        </motion.span>
+                      </motion.a>
+                    ),
+                  )}
                 </motion.div>
               </div>
 
@@ -233,35 +260,59 @@ export default function Home() {
                       : "flex w-full flex-col items-center gap-4"
                   }
                 >
-                  {contactLinks.map(({ href, icon, label, external }) => (
-                    <motion.a
-                      key={label}
-                      layout
-                      href={href}
-                      target={external ? "_blank" : undefined}
-                      rel={external ? "noreferrer" : undefined}
-                      aria-label={label}
-                      title={label}
-                      className={
-                        isSidebarCollapsed
-                          ? "flex aspect-square w-10 items-center justify-center border border-white/30 text-sm transition-colors hover:border-[#ff549e] hover:text-[#ff549e]"
-                          : "flex w-full max-w-md items-center justify-end gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
-                      }
-                    >
-                      <motion.span
-                        initial={false}
-                        animate={{
-                          opacity: isSidebarCollapsed ? 0 : 1,
-                          width: isSidebarCollapsed ? 0 : "auto",
-                        }}
-                        transition={{ duration: 0.35 }}
-                        className="overflow-hidden whitespace-nowrap"
+                  {contactLinks.map(
+                    ({ href, icon, viewSize, label, external }) => (
+                      <motion.a
+                        key={label}
+                        layout
+                        href={href}
+                        target={external ? "_blank" : undefined}
+                        rel={external ? "noreferrer" : undefined}
+                        aria-label={label}
+                        title={label}
+                        className={
+                          isSidebarCollapsed
+                            ? "flex aspect-square w-10 items-center justify-center border border-white/30 text-sm transition-colors hover:border-[#ff549e] hover:text-[#ff549e]"
+                            : "flex w-full max-w-md items-center justify-end gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
+                        }
                       >
-                        {label}
-                      </motion.span>
-                      <span aria-hidden="true">{icon}</span>
-                    </motion.a>
-                  ))}
+                        <motion.span
+                          initial={false}
+                          animate={{
+                            opacity: isSidebarCollapsed ? 0 : 1,
+                            width: isSidebarCollapsed ? 0 : "auto",
+                          }}
+                          transition={{ duration: 0.35 }}
+                          className="overflow-hidden whitespace-nowrap"
+                        >
+                          {label}
+                        </motion.span>
+                        <span
+                          aria-hidden="true"
+                          className="flex justify-center w-12"
+                        >
+                          <svg
+                            width="100%"
+                            height="100%"
+                            data-name="Layer 2"
+                            viewBox={viewSize}
+                          >
+                            <path
+                              d={icon}
+                              style={{
+                                fill: "none",
+                                stroke: "#ffffff",
+                                vectorEffect: "non-scaling-stroke",
+                                strokeLinecap: "round",
+                                strokeLinejoin: "round",
+                                fillRule: "evenodd",
+                              }}
+                            />
+                          </svg>
+                        </span>
+                      </motion.a>
+                    ),
+                  )}
                 </motion.div>
               </div>
             </motion.div>
