@@ -42,7 +42,7 @@ export default function IconButton({
               width: collapsed ? 0 : "auto",
             }}
             transition={{ duration: 0.35 }}
-            className="overflow-hidden whitespace-nowrap"
+            className="overflow-hidden whitespace-nowrap font-[monument] text-3xl"
           >
             {label}
           </motion.span>
@@ -96,7 +96,7 @@ export default function IconButton({
               width: collapsed ? 0 : "auto",
             }}
             transition={{ duration: 0.35 }}
-            className="overflow-hidden whitespace-nowrap"
+            className="overflow-hidden whitespace-nowrap font-[monument] text-3xl"
           >
             {label}
           </motion.span>
