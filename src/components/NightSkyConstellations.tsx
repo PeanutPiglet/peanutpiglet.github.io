@@ -10,13 +10,18 @@ interface Star {
   x: number;
   y: number;
   brightness: number;
+  motion: Motion;
+}
+
+interface Motion {
+  xOffsets: number[];
+  yOffsets: number[];
+  duration: number;
 }
 
 interface Line {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
+  start: Star;
+  end: Star;
   opacity: number;
 }
 
@@ -39,11 +44,29 @@ function generateConstellations(
     const seed1 = i * 12.98;
     const seed2 = i * 78.233;
     const seed3 = i * 43.614;
+    const motionSeed = i * 91.731;
 
     stars.push({
       x: seededRandom(seed1) * width,
       y: seededRandom(seed2) * height,
       brightness: 0.3 + seededRandom(seed3) * 0.7,
+      motion: {
+        xOffsets: [
+          0,
+          (seededRandom(motionSeed) - 0.5) * 16,
+          (seededRandom(motionSeed + 1) - 0.5) * 16,
+          (seededRandom(motionSeed + 2) - 0.5) * 16,
+          0,
+        ],
+        yOffsets: [
+          0,
+          (seededRandom(motionSeed + 3) - 0.5) * 16,
+          (seededRandom(motionSeed + 4) - 0.5) * 16,
+          (seededRandom(motionSeed + 5) - 0.5) * 16,
+          0,
+        ],
+        duration: 18 + seededRandom(motionSeed + 6) * 24,
+      },
     });
   }
 
@@ -68,10 +91,8 @@ function generateConstellations(
       if (distance < connectionDistance) {
         const opacity = Math.max(0.4, 1 - distance / connectionDistance) * 0.9;
         lines.push({
-          x1: stars[i].x,
-          y1: stars[i].y,
-          x2: stars[j].x,
-          y2: stars[j].y,
+          start: stars[i],
+          end: stars[j],
           opacity,
         });
         connectedStarIndices.add(i);
@@ -89,6 +110,10 @@ function generateConstellations(
   return { stars: connectedStars, lines };
 }
 
+function animatedValues(position: number, offsets: number[]): string {
+  return offsets.map((offset) => position + offset).join("; ");
+}
+
 interface NightSkyConstellationsProps {
   className?: string;
   width?: number;
@@ -100,6 +125,7 @@ export default function NightSkyConstellations({
   width,
   height,
 }: NightSkyConstellationsProps) {
+  console.log("Sky being rendered");
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
   const [data, setData] = useState<ConstellationData | null>(null);
 
@@ -163,55 +189,81 @@ export default function NightSkyConstellations({
           </filter>
         </defs>
 
-        <g>
-          <animateTransform
-            attributeName="transform"
-            type="translate"
-            values="0 0; 12 -8; -8 10; 0 0"
-            dur="28s"
-            repeatCount="indefinite"
-          />
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            values={`0 ${viewWidth / 2} ${viewHeight / 2}; 0.35 ${viewWidth / 2} ${viewHeight / 2}; 0 ${viewWidth / 2} ${viewHeight / 2}`}
-            dur="36s"
-            repeatCount="indefinite"
-            additive="sum"
-          />
-
-          {/* Constellation lines - render first (background) */}
-          <g opacity="1.0">
-            {data.lines.map((line, idx) => (
-              <line
-                key={`line-${idx}`}
-                x1={line.x1}
-                y1={line.y1}
-                x2={line.x2}
-                y2={line.y2}
-                stroke="rgba(255, 187, 84, 0.4)"
-                strokeWidth="1.4"
-                opacity={line.opacity}
-                strokeLinecap="round"
+        {/* Constellation lines - render first (background) */}
+        <g opacity="1.0">
+          {data.lines.map((line, idx) => (
+            <line
+              key={`line-${idx}`}
+              x1={line.start.x}
+              y1={line.start.y}
+              x2={line.end.x}
+              y2={line.end.y}
+              stroke="rgba(255, 187, 84, 0.4)"
+              strokeWidth="1.4"
+              opacity={line.opacity}
+              strokeLinecap="round"
+            >
+              <animate
+                attributeName="x1"
+                values={animatedValues(
+                  line.start.x,
+                  line.start.motion.xOffsets,
+                )}
+                dur={`${line.start.motion.duration}s`}
+                repeatCount="indefinite"
               />
-            ))}
-          </g>
+              <animate
+                attributeName="y1"
+                values={animatedValues(
+                  line.start.y,
+                  line.start.motion.yOffsets,
+                )}
+                dur={`${line.start.motion.duration}s`}
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="x2"
+                values={animatedValues(line.end.x, line.end.motion.xOffsets)}
+                dur={`${line.end.motion.duration}s`}
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="y2"
+                values={animatedValues(line.end.y, line.end.motion.yOffsets)}
+                dur={`${line.end.motion.duration}s`}
+                repeatCount="indefinite"
+              />
+            </line>
+          ))}
+        </g>
 
-          {/* Stars - render after lines */}
-          <g filter="url(#starGlow)">
-            {data.stars.map((star, idx) => {
-              const radius = 0.4 + star.brightness * 0.8;
-              return (
-                <circle
-                  key={`star-${idx}`}
-                  cx={star.x}
-                  cy={star.y}
-                  r={radius}
-                  fill={`rgba(255, 84, 158, ${star.brightness})`}
+        {/* Stars - render after lines */}
+        <g filter="url(#starGlow)">
+          {data.stars.map((star, idx) => {
+            const radius = 0.4 + star.brightness * 0.8;
+            return (
+              <circle
+                key={`star-${idx}`}
+                cx={star.x}
+                cy={star.y}
+                r={radius}
+                fill={`rgba(255, 84, 158, ${star.brightness})`}
+              >
+                <animate
+                  attributeName="cx"
+                  values={animatedValues(star.x, star.motion.xOffsets)}
+                  dur={`${star.motion.duration}s`}
+                  repeatCount="indefinite"
                 />
-              );
-            })}
-          </g>
+                <animate
+                  attributeName="cy"
+                  values={animatedValues(star.y, star.motion.yOffsets)}
+                  dur={`${star.motion.duration}s`}
+                  repeatCount="indefinite"
+                />
+              </circle>
+            );
+          })}
         </g>
       </svg>
     </div>
