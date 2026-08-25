@@ -146,7 +146,7 @@ export default function Home() {
               transition={{
                 layout: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
               }}
-              className="my-auto flex h-1/2 w-2/3 flex-col items-center justify-center gap-6 border-2 p-4 sm:flex-row sm:gap-8"
+              className="my-auto flex h-1/2 w-7/8 flex-col items-center justify-center gap-6 p-4 sm:flex-row sm:gap-8"
             >
               {/* Host container for pagelinks buttons initial layout*/}
               <div className="flex w-full flex-col items-center gap-4 sm:w-2/3">
@@ -245,10 +245,9 @@ export default function Home() {
                       className={
                         isSidebarCollapsed
                           ? "flex aspect-square w-10 items-center justify-center border border-white/30 text-sm transition-colors hover:border-[#ff549e] hover:text-[#ff549e]"
-                          : "flex w-full max-w-md items-center gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
+                          : "flex w-full max-w-md items-center justify-end gap-2 border border-white/30 px-4 py-2 transition-colors hover:border-[#ff549e]"
                       }
                     >
-                      <span aria-hidden="true">{icon}</span>
                       <motion.span
                         initial={false}
                         animate={{
@@ -260,6 +259,7 @@ export default function Home() {
                       >
                         {label}
                       </motion.span>
+                      <span aria-hidden="true">{icon}</span>
                     </motion.a>
                   ))}
                 </motion.div>
