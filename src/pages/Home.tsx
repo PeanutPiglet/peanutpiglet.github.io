@@ -80,7 +80,7 @@ export default function Home() {
         id="main-content-container"
         className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8"
       >
-        <div id="HeroSection" className="border h-screen -mt-6 flex flex-col">
+        <div id="HeroSection" className="h-screen -mt-6 flex flex-col border">
           <div id="HeroTop" className="relative pb-10 mt-6">
             <div
               id="Hero-LeftBanner"
@@ -267,6 +267,8 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </div>
+
+        {/* CONTEXT SECTIONS */}
 
         <section className="grid gap-6 lg:grid-cols-3">
           <article className="rounded-[24px] border border-white/10 bg-white/5 p-5 backdrop-blur-md">
