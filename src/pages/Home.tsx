@@ -85,18 +85,6 @@ export default function Home() {
         className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col overflow-y-auto px-4 py-6 sm:px-6 lg:px-8"
       >
         <div id="HeroSection" className="h-screen -mt-6 flex flex-col border">
-          {/* <PixelFader
-            scrollProgress={scrollProgress}
-            pixelSize={48}
-            color="#ff549e"
-            offsetRange={[0, 0.2]}
-            yWeight={0.5}
-            keypoints={[
-              { progress: 0.5, opacity: 1 },
-              { progress: 1, opacity: 0 },
-            ]}
-            className="z-0 opacity-100"
-          /> */}
           <div id="HeroTop" className="relative pb-10 mt-6">
             <div
               id="Hero-LeftBanner"
