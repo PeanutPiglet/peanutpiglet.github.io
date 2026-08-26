@@ -19,6 +19,7 @@ interface PixelFaderProps {
   scrollProgress?: PixelProgress;
   pixelSize?: number;
   color?: string;
+  maskParent?: boolean;
   className?: string;
   offsetRange?: [number, number];
   yWeight?: number;
@@ -87,10 +88,30 @@ const getColorAtProgress = (
   return colorKeypoints[colorKeypoints.length - 1].color;
 };
 
+const getMaskImage = (container: HTMLDivElement) => {
+  const columns = Number(container.style.getPropertyValue("--pixel-columns"));
+  const pixelSize = Number.parseFloat(container.style.gridAutoRows);
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  if (!columns || !pixelSize || !width || !height) return "";
+
+  const rects = Array.from(container.children, (pixel, index) => {
+    const opacity = (pixel as HTMLElement).style.opacity || "0";
+    const x = (index % columns) * pixelSize;
+    const y = Math.floor(index / columns) * pixelSize;
+    return `<rect x="${x}" y="${y}" width="${pixelSize}" height="${pixelSize}" fill="white" opacity="${opacity}"/>`;
+  }).join("");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">${rects}</svg>`;
+
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+};
+
 export default function PixelFader({
   scrollProgress = 0,
   pixelSize = 48,
   color = "currentColor",
+  maskParent = false,
   className = "",
   offsetRange = [0, 0.65],
   yWeight = 0,
@@ -138,6 +159,16 @@ export default function PixelFader({
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+    const parent = container.parentElement;
+
+    if (maskParent && parent) {
+      parent.style.maskType = "alpha";
+      parent.style.maskRepeat = "no-repeat";
+      parent.style.maskSize = "100% 100%";
+      parent.style.webkitMaskRepeat = "no-repeat";
+      parent.style.webkitMaskSize = "100% 100%";
+      container.style.opacity = "0";
+    }
 
     let animationFrame = 0;
     const shouldAnimate = typeof scrollProgress !== "number";
@@ -173,12 +204,29 @@ export default function PixelFader({
           resolvedKeypoints,
         );
       }
+      if (maskParent && parent) {
+        const maskImage = getMaskImage(container);
+        parent.style.maskImage = maskImage;
+        parent.style.webkitMaskImage = maskImage;
+      }
       if (shouldAnimate) animationFrame = requestAnimationFrame(updateOpacity);
     };
 
     updateOpacity();
-    return () => cancelAnimationFrame(animationFrame);
-  }, [color, resolvedKeypoints, scrollProgress, yWeight]);
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      if (maskParent && parent) {
+        parent.style.removeProperty("mask-type");
+        parent.style.removeProperty("mask-image");
+        parent.style.removeProperty("mask-repeat");
+        parent.style.removeProperty("mask-size");
+        parent.style.removeProperty("-webkit-mask-image");
+        parent.style.removeProperty("-webkit-mask-repeat");
+        parent.style.removeProperty("-webkit-mask-size");
+        container.style.removeProperty("opacity");
+      }
+    };
+  }, [color, maskParent, pixels, resolvedKeypoints, scrollProgress, yWeight]);
 
   return (
     <div
