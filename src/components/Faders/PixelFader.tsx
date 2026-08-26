@@ -6,6 +6,7 @@ export type PixelProgress = number | { current: number };
 export interface PixelFaderKeypoint {
   progress: number;
   opacity: number;
+  color?: string;
 }
 
 interface Pixel {
@@ -57,6 +58,35 @@ const getOpacityAtProgress = (
   return keypoints[keypoints.length - 1].opacity;
 };
 
+const getColorAtProgress = (
+  progress: number,
+  color: string,
+  keypoints: PixelFaderKeypoint[],
+) => {
+  const colorKeypoints = keypoints.map((keypoint) => ({
+    ...keypoint,
+    color: keypoint.color ?? color,
+  }));
+
+  if (progress <= colorKeypoints[0].progress) return colorKeypoints[0].color;
+
+  for (let index = 1; index < colorKeypoints.length; index++) {
+    const previous = colorKeypoints[index - 1];
+    const current = colorKeypoints[index];
+
+    if (progress <= current.progress) {
+      const range = current.progress - previous.progress;
+      const amount = range === 0 ? 1 : (progress - previous.progress) / range;
+
+      if (previous.color === current.color) return current.color;
+
+      return `color-mix(in srgb, ${previous.color} ${(1 - amount) * 100}%, ${current.color} ${amount * 100}%)`;
+    }
+  }
+
+  return colorKeypoints[colorKeypoints.length - 1].color;
+};
+
 export default function PixelFader({
   scrollProgress = 0,
   pixelSize = 48,
@@ -72,6 +102,7 @@ export default function PixelFader({
     .map((keypoint) => ({
       progress: clamp(keypoint.progress, 0, 1),
       opacity: clamp(keypoint.opacity, 0, 1),
+      color: keypoint.color,
     }))
     .sort((first, second) => first.progress - second.progress);
 
@@ -134,14 +165,20 @@ export default function PixelFader({
           0,
           1,
         );
-        (pixel as HTMLElement).style.opacity = `${opacity}`;
+        const pixelElement = pixel as HTMLElement;
+        pixelElement.style.opacity = `${opacity}`;
+        pixelElement.style.backgroundColor = getColorAtProgress(
+          shiftedProgress,
+          color,
+          resolvedKeypoints,
+        );
       }
       if (shouldAnimate) animationFrame = requestAnimationFrame(updateOpacity);
     };
 
     updateOpacity();
     return () => cancelAnimationFrame(animationFrame);
-  }, [resolvedKeypoints, scrollProgress, yWeight]);
+  }, [color, resolvedKeypoints, scrollProgress, yWeight]);
 
   return (
     <div
