@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useLenis } from "lenis/react";
 import NightSkyConstellations from "../components/NightSkyConstellations.tsx";
+import PixelFader from "../components/Faders/PixelFader.tsx";
 import NameTitle from "../components/Home/NameTitle.tsx";
 import RisingText from "../components/RisingText.tsx";
 import ScrambleText from "../components/ScrambleText.tsx";
@@ -83,7 +84,19 @@ export default function Home() {
         id="main-content-container"
         className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8"
       >
-        <div id="HeroSection" className="h-screen -mt-6 flex flex-col border">
+        <div id="HeroSection" className=" h-screen -mt-6 flex flex-col border">
+          {/* <PixelFader
+            scrollProgress={scrollProgress}
+            pixelSize={48}
+            color="#ff549e"
+            offsetRange={[0, 0.2]}
+            yWeight={0.5}
+            keypoints={[
+              { progress: 0.5, opacity: 1 },
+              { progress: 1, opacity: 0 },
+            ]}
+            className="z-0 opacity-100"
+          /> */}
           <div id="HeroTop" className="relative pb-10 mt-6">
             <div
               id="Hero-LeftBanner"
