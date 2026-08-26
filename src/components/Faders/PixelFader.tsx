@@ -147,7 +147,7 @@ export default function PixelFader({
     <div
       ref={containerRef}
       aria-hidden="true"
-      className={`pointer-events-none absolute inset-0 grid overflow-hidden ${className}`}
+      className={`pointer-events-none inset-0 grid overflow-hidden ${className}`}
       style={
         {
           gridTemplateColumns: "repeat(var(--pixel-columns), 1fr)",
