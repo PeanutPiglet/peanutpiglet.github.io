@@ -151,7 +151,8 @@ export default function NightSkyConstellations({
 
   const viewWidth = width ?? (viewport.width || 1440);
   const viewHeight = height ?? (viewport.height || 900);
-  const skyHeight = viewHeight * 2;
+  const maxParallaxOffset = viewHeight * 0.2;
+  const skyHeight = viewHeight + maxParallaxOffset;
 
   useEffect(() => {
     let animationFrame = 0;
@@ -160,7 +161,7 @@ export default function NightSkyConstellations({
       const progress = Math.min(1, Math.max(0, scrollProgress?.current ?? 0));
       sceneRef.current?.style.setProperty(
         "transform",
-        `translate3d(0, ${-viewHeight * 0.2 * progress}px, 0)`,
+        `translate3d(0, ${-maxParallaxOffset * progress}px, 0)`,
       );
       animationFrame = requestAnimationFrame(updateParallax);
     };
