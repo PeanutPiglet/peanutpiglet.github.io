@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useLenis } from "lenis/react";
 import NightSkyConstellations from "../components/NightSkyConstellations.tsx";
@@ -13,6 +13,7 @@ export default function Home() {
 
   const [showScrollHint, setShowScrollHint] = useState(true);
   const isSidebarCollapsed = !showScrollHint;
+  const scrollProgress = useRef(0);
 
   const pageLinks = [
     {
@@ -63,6 +64,8 @@ export default function Home() {
   ];
 
   useLenis(({ progress, direction }) => {
+    scrollProgress.current = progress;
+
     if (direction === 1 && progress > SCROLL_THRESHOLD_HINT) {
       setShowScrollHint(false);
     } else if (direction === -1 && progress <= SCROLL_THRESHOLD_HINT) {
@@ -73,7 +76,7 @@ export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden text-white">
       <div className="-z-50">
-        <NightSkyConstellations></NightSkyConstellations>
+        <NightSkyConstellations scrollProgress={scrollProgress} />
       </div>
 
       <div

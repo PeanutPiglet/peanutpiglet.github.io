@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useDebouncedCall } from "./CommonHooks";
 
 // Seeded random number generator for reproducible constellations
@@ -121,14 +121,17 @@ interface NightSkyConstellationsProps {
   className?: string;
   width?: number;
   height?: number;
+  scrollProgress?: { current: number };
 }
 
 export default function NightSkyConstellations({
   className = "",
   width,
   height,
+  scrollProgress,
 }: NightSkyConstellationsProps) {
   console.log("Sky being rendered");
+  const sceneRef = useRef<HTMLDivElement>(null);
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
   const [data, setData] = useState<ConstellationData | null>(null);
   const updateViewport = useCallback(() => {
@@ -148,10 +151,29 @@ export default function NightSkyConstellations({
 
   const viewWidth = width ?? (viewport.width || 1440);
   const viewHeight = height ?? (viewport.height || 900);
+  const skyHeight = viewHeight * 2;
 
   useEffect(() => {
-    setData(generateConstellations(viewWidth, viewHeight));
-  }, [viewWidth, viewHeight]);
+    let animationFrame = 0;
+
+    const updateParallax = () => {
+      const progress = Math.min(1, Math.max(0, scrollProgress?.current ?? 0));
+      sceneRef.current?.style.setProperty(
+        "transform",
+        `translate3d(0, ${-viewHeight * 0.2 * progress}px, 0)`,
+      );
+      animationFrame = requestAnimationFrame(updateParallax);
+    };
+
+    animationFrame = requestAnimationFrame(updateParallax);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [scrollProgress, viewHeight]);
+
+  useEffect(() => {
+    console.log("REGENERATING SKY");
+    setData(generateConstellations(viewWidth, skyHeight));
+  }, [viewWidth, skyHeight]);
 
   if (!data) return null;
 
@@ -160,115 +182,117 @@ export default function NightSkyConstellations({
       className={`fixed inset-0 overflow-hidden bg-black ${className}`}
       style={{ zIndex: -1 }}
     >
-      <div
-        aria-hidden="true"
-        className="h-full w-full"
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(ellipse 300% 200% at 50% 150%, rgba(255, 84, 158, 1) 0%, rgba(255, 84, 158, 0.2) 24%, rgba(255, 84, 158, 0.1) 40%, rgba(30, 13, 33, 0) 56%)",
-          pointerEvents: "none",
-          mixBlendMode: "screen",
-        }}
-      />
-      <svg
-        viewBox={`0 0 ${viewWidth} ${viewHeight}`}
-        className="block"
-        style={{
-          width: "100vw",
-          height: "100vh",
-        }}
-        preserveAspectRatio="none"
-      >
-        {/* Defs for glow effects */}
-        <defs>
-          <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="1" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
+      <div ref={sceneRef} style={{ height: skyHeight, width: "100vw" }}>
+        <div
+          aria-hidden="true"
+          className="h-full w-full"
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(ellipse 300% 200% at 50% 150%, rgba(255, 84, 158, 1) 0%, rgba(255, 84, 158, 0.2) 24%, rgba(255, 84, 158, 0.1) 40%, rgba(30, 13, 33, 0) 56%)",
+            pointerEvents: "none",
+            mixBlendMode: "screen",
+          }}
+        />
+        <svg
+          viewBox={`0 0 ${viewWidth} ${skyHeight}`}
+          className="block"
+          style={{
+            width: "100vw",
+            height: skyHeight,
+          }}
+          preserveAspectRatio="none"
+        >
+          {/* Defs for glow effects */}
+          <defs>
+            <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="1" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
 
-        {/* Constellation lines - render first (background) */}
-        <g opacity="1.0">
-          {data.lines.map((line, idx) => (
-            <line
-              key={`line-${idx}`}
-              x1={line.start.x}
-              y1={line.start.y}
-              x2={line.end.x}
-              y2={line.end.y}
-              stroke="rgba(255, 187, 84, 0.4)"
-              strokeWidth="1.4"
-              opacity={line.opacity}
-              strokeLinecap="round"
-            >
-              <animate
-                attributeName="x1"
-                values={animatedValues(
-                  line.start.x,
-                  line.start.motion.xOffsets,
-                )}
-                dur={`${line.start.motion.duration}s`}
-                repeatCount="indefinite"
-              />
-              <animate
-                attributeName="y1"
-                values={animatedValues(
-                  line.start.y,
-                  line.start.motion.yOffsets,
-                )}
-                dur={`${line.start.motion.duration}s`}
-                repeatCount="indefinite"
-              />
-              <animate
-                attributeName="x2"
-                values={animatedValues(line.end.x, line.end.motion.xOffsets)}
-                dur={`${line.end.motion.duration}s`}
-                repeatCount="indefinite"
-              />
-              <animate
-                attributeName="y2"
-                values={animatedValues(line.end.y, line.end.motion.yOffsets)}
-                dur={`${line.end.motion.duration}s`}
-                repeatCount="indefinite"
-              />
-            </line>
-          ))}
-        </g>
-
-        {/* Stars - render after lines */}
-        <g filter="url(#starGlow)">
-          {data.stars.map((star, idx) => {
-            const radius = 0.4 + star.brightness * 0.8;
-            return (
-              <circle
-                key={`star-${idx}`}
-                cx={star.x}
-                cy={star.y}
-                r={radius}
-                fill={`rgba(255, 84, 158, ${star.brightness})`}
+          {/* Constellation lines - render first (background) */}
+          <g opacity="1.0">
+            {data.lines.map((line, idx) => (
+              <line
+                key={`line-${idx}`}
+                x1={line.start.x}
+                y1={line.start.y}
+                x2={line.end.x}
+                y2={line.end.y}
+                stroke="rgba(255, 187, 84, 0.4)"
+                strokeWidth="1.4"
+                opacity={line.opacity}
+                strokeLinecap="round"
               >
                 <animate
-                  attributeName="cx"
-                  values={animatedValues(star.x, star.motion.xOffsets)}
-                  dur={`${star.motion.duration}s`}
+                  attributeName="x1"
+                  values={animatedValues(
+                    line.start.x,
+                    line.start.motion.xOffsets,
+                  )}
+                  dur={`${line.start.motion.duration}s`}
                   repeatCount="indefinite"
                 />
                 <animate
-                  attributeName="cy"
-                  values={animatedValues(star.y, star.motion.yOffsets)}
-                  dur={`${star.motion.duration}s`}
+                  attributeName="y1"
+                  values={animatedValues(
+                    line.start.y,
+                    line.start.motion.yOffsets,
+                  )}
+                  dur={`${line.start.motion.duration}s`}
                   repeatCount="indefinite"
                 />
-              </circle>
-            );
-          })}
-        </g>
-      </svg>
+                <animate
+                  attributeName="x2"
+                  values={animatedValues(line.end.x, line.end.motion.xOffsets)}
+                  dur={`${line.end.motion.duration}s`}
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="y2"
+                  values={animatedValues(line.end.y, line.end.motion.yOffsets)}
+                  dur={`${line.end.motion.duration}s`}
+                  repeatCount="indefinite"
+                />
+              </line>
+            ))}
+          </g>
+
+          {/* Stars - render after lines */}
+          <g filter="url(#starGlow)">
+            {data.stars.map((star, idx) => {
+              const radius = 0.4 + star.brightness * 0.8;
+              return (
+                <circle
+                  key={`star-${idx}`}
+                  cx={star.x}
+                  cy={star.y}
+                  r={radius}
+                  fill={`rgba(255, 84, 158, ${star.brightness})`}
+                >
+                  <animate
+                    attributeName="cx"
+                    values={animatedValues(star.x, star.motion.xOffsets)}
+                    dur={`${star.motion.duration}s`}
+                    repeatCount="indefinite"
+                  />
+                  <animate
+                    attributeName="cy"
+                    values={animatedValues(star.y, star.motion.yOffsets)}
+                    dur={`${star.motion.duration}s`}
+                    repeatCount="indefinite"
+                  />
+                </circle>
+              );
+            })}
+          </g>
+        </svg>
+      </div>
     </div>
   );
 }
