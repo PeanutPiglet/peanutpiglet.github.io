@@ -82,9 +82,9 @@ export default function Home() {
 
       <div
         id="main-content-container"
-        className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8"
+        className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col overflow-y-auto px-4 py-6 sm:px-6 lg:px-8"
       >
-        <div id="HeroSection" className=" h-screen -mt-6 flex flex-col border">
+        <div id="HeroSection" className="h-screen -mt-6 flex flex-col border">
           {/* <PixelFader
             scrollProgress={scrollProgress}
             pixelSize={48}
@@ -284,7 +284,20 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* CONTEXT SECTIONS */}
+        {/* CONTENT SECTIONS */}
+
+        {/* Biography */}
+        <div className="h-80vh flex gap-12 px-12">
+          <motion.div className="rounded-[28px] h-70vh flex-3 border border-white/10 bg-white/5 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.9)] backdrop-blur-md"></motion.div>
+          <motion.div className="flex-1 h-70vh rounded-[28px] border border-white/10 bg-slate-950/35 p-6 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.95)] backdrop-blur-md">
+            <div className="rounded-[20px] border border-white/10 bg-white/6 p-1">
+              <img
+                src="./src/assets/Home/SelfPortrait.jpg"
+                className="h-full w-full object-contain rounded-2xl"
+              ></img>
+            </div>
+          </motion.div>
+        </div>
 
         <section className="grid gap-6 lg:grid-cols-3">
           <article className="rounded-[24px] border border-white/10 bg-white/5 p-5 backdrop-blur-md">
