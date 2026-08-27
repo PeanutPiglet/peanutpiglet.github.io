@@ -2,16 +2,14 @@ import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useLenis } from "lenis/react";
 import NightSkyConstellations from "../components/NightSkyConstellations.tsx";
-import PixelFader from "../components/Faders/PixelFader.tsx";
 import NameTitle from "../components/Home/NameTitle.tsx";
 import RisingText from "../components/RisingText.tsx";
 import ScrambleText from "../components/ScrambleText.tsx";
 import BorderTracer from "../components/Home/BorderTracer.tsx";
 import IconButton from "../components/Buttons/IconButton.tsx";
+import SentinelDetector from "../components/Functional/Sentinel.tsx";
 
 export default function Home() {
-  const SCROLL_THRESHOLD_HINT = 0.5;
-
   const [showScrollHint, setShowScrollHint] = useState(true);
   const isSidebarCollapsed = !showScrollHint;
   const scrollProgress = useRef(0);
@@ -66,12 +64,6 @@ export default function Home() {
 
   useLenis(({ progress, direction }) => {
     scrollProgress.current = progress;
-
-    if (direction === 1 && progress > SCROLL_THRESHOLD_HINT) {
-      setShowScrollHint(false);
-    } else if (direction === -1 && progress <= SCROLL_THRESHOLD_HINT) {
-      setShowScrollHint(true);
-    }
   });
 
   return (
@@ -286,6 +278,19 @@ export default function Home() {
             </div>
           </motion.div>
         </div>
+
+        <SentinelDetector
+          root={null}
+          onEnter={() => {
+            setShowScrollHint(false);
+            console.log("ENTERING");
+          }}
+          onLeave={() => {
+            setShowScrollHint(true);
+            console.log("LEAVING");
+          }}
+          className="h-px w-full "
+        ></SentinelDetector>
 
         <section className="grid gap-6 lg:grid-cols-3">
           <article className="rounded-[24px] border border-white/10 bg-white/5 p-5 backdrop-blur-md">
