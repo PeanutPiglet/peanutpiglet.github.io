@@ -267,7 +267,23 @@ export default function Home() {
         {/* CONTENT SECTIONS */}
 
         {/* Biography */}
-        <div className="flex flex-col gap-12">
+        <motion.div
+          className="flex flex-col gap-12"
+          initial={{ maskPosition: "0% 100%" }}
+          animate={{ maskPosition: showScrollHint ? "0% 100%" : "0% 0%" }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, #000 0%, #000 50%, transparent 50%, transparent 100%)",
+            maskSize: "100% 200%",
+            maskRepeat: "no-repeat",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, #000 0%, #000 50%, transparent 50%, transparent 100%)",
+            WebkitMaskSize: "100% 200%",
+            WebkitMaskRepeat: "no-repeat",
+            willChange: "mask-position",
+          }}
+        >
           {/* Profession and Education */}
           <div className="h-80vh flex gap-12 px-12">
             <motion.div className="rounded-[28px] h-70vh flex-3 border border-white/10 bg-white/5 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.9)] backdrop-blur-md"></motion.div>
@@ -290,7 +306,7 @@ export default function Home() {
             </motion.div>
             <motion.div className="rounded-[28px] h-70vh flex-3 border border-white/10 bg-white/5 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.9)] backdrop-blur-md"></motion.div>
           </div>
-        </div>
+        </motion.div>
 
         <SentinelDetector
           root={null}
