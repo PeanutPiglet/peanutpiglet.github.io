@@ -267,16 +267,29 @@ export default function Home() {
         {/* CONTENT SECTIONS */}
 
         {/* Biography */}
-        <div className="h-80vh flex gap-12 px-12">
-          <motion.div className="rounded-[28px] h-70vh flex-3 border border-white/10 bg-white/5 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.9)] backdrop-blur-md"></motion.div>
-          <motion.div className="flex-1 h-70vh rounded-[28px] border border-white/10 bg-slate-950/35 p-6 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.95)] backdrop-blur-md">
-            <div className="rounded-[20px] border border-white/10 bg-white/6 p-1">
-              <img
-                src="./src/assets/Home/SelfPortrait.jpg"
-                className="h-full w-full object-contain rounded-2xl"
-              ></img>
-            </div>
-          </motion.div>
+        <div className="flex flex-col gap-12">
+          {/* Profession and Education */}
+          <div className="h-80vh flex gap-12 px-12">
+            <motion.div className="rounded-[28px] h-70vh flex-3 border border-white/10 bg-white/5 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.9)] backdrop-blur-md"></motion.div>
+            <motion.div className="flex-1 h-70vh rounded-[28px] border border-white/10 bg-slate-950/35 p-6 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.95)] backdrop-blur-md">
+              <div className="rounded-[20px] border border-white/10 bg-white/6 p-1">
+                <img
+                  src="./src/assets/Home/SelfPortrait.jpg"
+                  className="h-full w-full object-contain rounded-2xl"
+                ></img>
+              </div>
+            </motion.div>
+          </div>
+          {/* Hobbies and Creative Works */}
+          <div className="h-80vh flex gap-12 px-12">
+            <motion.div className="flex-1 h-70vh rounded-[28px] border border-white/10 bg-slate-950/35 p-6 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.95)] backdrop-blur-md">
+              ARTWORK CAROUSEL
+            </motion.div>
+            <motion.div className="flex-1 h-70vh rounded-[28px] border border-white/10 bg-slate-950/35 p-6 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.95)] backdrop-blur-md">
+              MUSIC DEMO
+            </motion.div>
+            <motion.div className="rounded-[28px] h-70vh flex-3 border border-white/10 bg-white/5 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.9)] backdrop-blur-md"></motion.div>
+          </div>
         </div>
 
         <SentinelDetector
